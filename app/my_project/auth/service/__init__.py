@@ -1,0 +1,25 @@
+from .orders.hydrological_objects_has_rivers_service import HydrologicalObjectsHasRiversService
+from .orders.hydrological_objects_service import HydrologicalObjectsService
+from .orders.measurement_locations_service import MeasurementLocationsService
+from .orders.meteorological_conditions_service import MeteorologicalConditionsService
+from .orders.regions_service import RegionsService
+from .orders.river_types_service import RiverTypesService
+from .orders.rivers_service import RiversService
+from .orders.users_has_water_level_alerts_service import UserHasWaterLevelAlertsService
+from .orders.users_service import UsersService
+from .orders.water_level_alerts_service import WaterLevelAlertsService
+from .orders.water_levels_has_meteorological_conditions_service import WaterLevelsHasMeteorologicalConditionsService
+from .orders.water_levels_service import WaterLevelsService
+
+hydrological_objects_service = HydrologicalObjectsService()
+hydrological_objects_has_rivers_service = HydrologicalObjectsHasRiversService()
+measurement_locations_service = MeasurementLocationsService()
+meteorological_conditions_service = MeteorologicalConditionsService()
+regions_service = RegionsService()
+river_types_service = RiverTypesService()
+rivers_service = RiversService()
+user_has_water_level_alerts_service = UserHasWaterLevelAlertsService()
+users_service = UsersService()
+water_level_alerts_service = WaterLevelAlertsService()
+water_levels_has_meteorological_conditions_service = WaterLevelsHasMeteorologicalConditionsService()
+water_levels_service = WaterLevelsService()

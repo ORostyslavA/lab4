@@ -1,0 +1,27 @@
+from .orders.hydrological_objects_controller import HydrologicalObjectsController
+from .orders.hydrological_objects_has_rivers_controller import HydrologicalObjectsHasRiversController
+from .orders.meteorological_conditions_controller import MeteorologicalConditionsController
+from .orders.measurement_locations_controller import MeasurementLocationsController
+from .orders.regions_controller import RegionsController
+from .orders.rivers_controller import RiversController
+from .orders.river_types_controller import RiverTypesController
+from .orders.users_controller import UsersController
+from .orders.users_has_water_level_alerts_controller import UserHasWaterLevelAlertsController
+from .orders.water_level_alerts_controller import WaterLevelAlertsController
+from .orders.water_levels_controller import WaterLevelsController
+from .orders.water_levels_has_meteorological_conditions_controller import (
+    WaterLevelsHasMeteorologicalConditionsController)
+
+hydrological_objects_controller = HydrologicalObjectsController()
+hydrological_objects_has_rivers_controller = HydrologicalObjectsHasRiversController()
+meteorological_conditions_controller = MeteorologicalConditionsController()
+measurement_locations_controller = MeasurementLocationsController()
+regions_controller = RegionsController()
+river_types_controller = RiverTypesController()
+rivers_controller = RiversController()
+users_controller = UsersController()
+users_has_water_level_alerts_controller = UserHasWaterLevelAlertsController()
+water_level_alerts_controller = WaterLevelAlertsController()
+water_levels_controller = WaterLevelsController()
+water_levels_has_meteorological_conditions_controller = WaterLevelsHasMeteorologicalConditionsController()
+
