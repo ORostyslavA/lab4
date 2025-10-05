@@ -14,9 +14,10 @@ BRANCH="lab-ec2"
 # --- Step 2: Pull latest code safely ---
 echo "Updating code..."
 git fetch origin
-git stash  true
+#git stash  true
 git checkout $BRANCH
-git pull origin $BRANCH
+#git pull origin $BRANCH
+git reset //hard origin/$BRANCH
 
 # --- Step 3: Restore app.yml if needed ---
 #if [ -f "/tmp/app.yml.backup" ]; then
