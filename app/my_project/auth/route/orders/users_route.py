@@ -31,29 +31,33 @@ def create_users() -> Response:
     """
     Create a new user
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              username:
-                type: string
-                description: Username of the user
-              email:
-                type: string
-                description: Email address of the user
-              password:
-                type: string
-                description: Password for the user
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+              description: Username of the user
+            email:
+              type: string
+              description: Email address of the user
+            password:
+              type: string
+              description: Password for the user
+          required:
+            - username
+            - email
+            - password
     responses:
       201:
         description: User created successfully
-        content:
-          application/json:
-            schema:
-              type: object
+        schema:
+          type: object
     """
     content = request.get_json()
     users = Users.create_from_dto(content)
