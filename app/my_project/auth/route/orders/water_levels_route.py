@@ -29,32 +29,38 @@ def get_all_water_levels() -> Response:
 @water_levels_bp.post('')
 def create_water_levels() -> Response:
     """
-    Create a new water level record
+    Create a new water level
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              water_level_value:
-                type: number
-                description: Value of the water level
-              measurement_locations_id:
-                type: integer
-                description: Measurement location ID
-              start_date:
-                type: string
-                format: date
-                description: Start date of measurement
-              end_date:
-                type: string
-                format: date
-                description: End date of measurement
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - measurement_location_id
+            - level
+            - measured_at
+          properties:
+            measurement_location_id:
+              type: integer
+              description: Measurement location ID
+            level:
+              type: number
+              format: float
+              description: Water level value
+            measured_at:
+              type: string
+              format: date-time
+              description: Time when level was measured
+            note:
+              type: string
+              description: Optional note
     responses:
       201:
-        description: Water level record created successfully
+        description: Water level created successfully
         content:
           application/json:
             schema:
@@ -69,7 +75,7 @@ def create_water_levels() -> Response:
 @water_levels_bp.get('/<int:water_levels_id>')
 def get_water_levels(water_levels_id: int) -> Response:
     """
-    Get water level record by ID
+    Get water level by ID
     ---
     parameters:
       - name: water_levels_id
@@ -77,10 +83,10 @@ def get_water_levels(water_levels_id: int) -> Response:
         required: true
         schema:
           type: integer
-        description: ID of the water level record
+        description: ID of the water level
     responses:
       200:
-        description: Water level record found
+        description: Water level found
         content:
           application/json:
             schema:
@@ -92,7 +98,7 @@ def get_water_levels(water_levels_id: int) -> Response:
 @water_levels_bp.put('/<int:water_levels_id>')
 def update_water_levels(water_levels_id: int) -> Response:
     """
-    Update water level record by ID
+    Update water level by ID
     ---
     parameters:
       - name: water_levels_id
@@ -100,27 +106,29 @@ def update_water_levels(water_levels_id: int) -> Response:
         required: true
         schema:
           type: integer
-        description: ID of the water level record
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              water_level_value:
-                type: number
-              measurement_locations_id:
-                type: integer
-              start_date:
-                type: string
-                format: date
-              end_date:
-                type: string
-                format: date
+        description: ID of the water level
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            measurement_location_id:
+              type: integer
+            level:
+              type: number
+              format: float
+            measured_at:
+              type: string
+              format: date-time
+            note:
+              type: string
     responses:
       200:
-        description: Water level record updated successfully
+        description: Water level updated successfully
     """
     content = request.get_json()
     water_levels = WaterLevels.create_from_dto(content)
@@ -131,7 +139,7 @@ def update_water_levels(water_levels_id: int) -> Response:
 @water_levels_bp.patch('/<int:water_levels_id>')
 def patch_water_levels(water_levels_id: int) -> Response:
     """
-    Partially update water level record by ID
+    Partially update water level by ID
     ---
     parameters:
       - name: water_levels_id
@@ -139,17 +147,19 @@ def patch_water_levels(water_levels_id: int) -> Response:
         required: true
         schema:
           type: integer
-        description: ID of the water level record
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the water level record
+        description: ID of the water level
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the water level
     responses:
       200:
-        description: Water level record patched successfully
+        description: Water level patched successfully
     """
     content = request.get_json()
     water_levels_controller.patch(water_levels_id, content)
@@ -159,7 +169,7 @@ def patch_water_levels(water_levels_id: int) -> Response:
 @water_levels_bp.delete('/<int:water_levels_id>')
 def delete_water_levels(water_levels_id: int) -> Response:
     """
-    Delete water level record by ID
+    Delete water level by ID
     ---
     parameters:
       - name: water_levels_id
@@ -167,10 +177,10 @@ def delete_water_levels(water_levels_id: int) -> Response:
         required: true
         schema:
           type: integer
-        description: ID of the water level record
+        description: ID of the water level
     responses:
       200:
-        description: Water level record deleted successfully
+        description: Water level deleted successfully
     """
     water_levels_controller.delete(water_levels_id)
     return make_response("WaterLevels deleted", HTTPStatus.OK)
