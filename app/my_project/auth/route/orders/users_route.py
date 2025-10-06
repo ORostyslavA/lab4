@@ -50,7 +50,7 @@ def create_users() -> Response:
                 description: Email address of the user
               password:
                 type: string
-                description: Password for the user
+                description: Password for user
     responses:
       201:
         description: User created successfully
