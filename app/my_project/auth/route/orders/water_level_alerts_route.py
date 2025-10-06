@@ -31,22 +31,32 @@ def create_water_level_alerts() -> Response:
     """
     Create a new water level alert
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              alert_name:
-                type: string
-                description: Name of the alert
-              threshold:
-                type: number
-                description: Threshold value for the alert
-              measurement_locations_id:
-                type: integer
-                description: Measurement location ID
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - measurement_location_id
+            - threshold
+            - active
+          properties:
+            measurement_location_id:
+              type: integer
+              description: Measurement location ID
+            threshold:
+              type: number
+              format: float
+              description: Threshold level that triggers the alert
+            active:
+              type: boolean
+              description: Whether the alert is active
+            description:
+              type: string
+              description: Optional description
     responses:
       201:
         description: Water level alert created successfully
@@ -96,19 +106,24 @@ def update_water_level_alerts(water_level_alerts_id: int) -> Response:
         schema:
           type: integer
         description: ID of the water level alert
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              alert_name:
-                type: string
-              threshold:
-                type: number
-              measurement_locations_id:
-                type: integer
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            measurement_location_id:
+              type: integer
+            threshold:
+              type: number
+              format: float
+            active:
+              type: boolean
+            description:
+              type: string
     responses:
       200:
         description: Water level alert updated successfully
@@ -131,13 +146,15 @@ def patch_water_level_alerts(water_level_alerts_id: int) -> Response:
         schema:
           type: integer
         description: ID of the water level alert
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the water level alert
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the water level alert
     responses:
       200:
         description: Water level alert patched successfully
