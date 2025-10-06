@@ -31,22 +31,33 @@ def create_meteorological_conditions() -> Response:
     """
     Create a new meteorological condition
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              condition_name:
-                type: string
-                description: Name of the meteorological condition
-              value:
-                type: number
-                description: Value of the condition
-              unit:
-                type: string
-                description: Unit of measurement
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - condition_type
+            - value
+            - measured_at
+          properties:
+            condition_type:
+              type: string
+              description: Type of the meteorological condition (e.g., temperature, humidity)
+            value:
+              type: number
+              format: float
+              description: Measured value
+            measured_at:
+              type: string
+              format: date-time
+              description: Timestamp when measurement was taken
+            location_id:
+              type: integer
+              description: Measurement location ID (optional)
     responses:
       201:
         description: Meteorological condition created successfully
@@ -97,19 +108,25 @@ def update_meteorological_conditions(meteorological_conditions_id: int) -> Respo
         schema:
           type: integer
         description: ID of the meteorological condition
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              condition_name:
-                type: string
-              value:
-                type: number
-              unit:
-                type: string
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            condition_type:
+              type: string
+            value:
+              type: number
+              format: float
+            measured_at:
+              type: string
+              format: date-time
+            location_id:
+              type: integer
     responses:
       200:
         description: Meteorological condition updated successfully
@@ -132,13 +149,15 @@ def patch_meteorological_conditions(meteorological_conditions_id: int) -> Respon
         schema:
           type: integer
         description: ID of the meteorological condition
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the meteorological condition
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the meteorological condition
     responses:
       200:
         description: Meteorological condition patched successfully
