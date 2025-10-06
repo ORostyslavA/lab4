@@ -32,19 +32,24 @@ def create_hydrological_objects_has_rivers() -> Response:
     """
     Create a new hydrological-objects-has-rivers relation
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              hydrological_objects_id:
-                type: integer
-                description: Hydrological object ID
-              rivers_id:
-                type: integer
-                description: River ID
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - hydrological_objects_id
+            - rivers_id
+          properties:
+            hydrological_objects_id:
+              type: integer
+              description: Hydrological object ID
+            rivers_id:
+              type: integer
+              description: River ID
     responses:
       201:
         description: Relation created successfully
@@ -95,17 +100,19 @@ def update_hydrological_objects_has_rivers(hydrological_objects_has_rivers_id: i
         schema:
           type: integer
         description: Relation ID
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              hydrological_objects_id:
-                type: integer
-              rivers_id:
-                type: integer
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            hydrological_objects_id:
+              type: integer
+            rivers_id:
+              type: integer
     responses:
       200:
         description: Relation updated successfully
@@ -129,13 +136,15 @@ def patch_hydrological_objects_has_rivers(hydrological_objects_has_rivers_id: in
         schema:
           type: integer
         description: Relation ID
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the relation
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the relation
     responses:
       200:
         description: Relation patched successfully
