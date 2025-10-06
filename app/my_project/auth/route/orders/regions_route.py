@@ -31,19 +31,23 @@ def create_regions() -> Response:
     """
     Create a new region
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              region_name:
-                type: string
-                description: Name of the region
-              country:
-                type: string
-                description: Country of the region
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - name
+          properties:
+            name:
+              type: string
+              description: Name of the region
+            code:
+              type: string
+              description: Optional region code
     responses:
       201:
         description: Region created successfully
@@ -93,17 +97,19 @@ def update_regions(regions_id: int) -> Response:
         schema:
           type: integer
         description: ID of the region
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              region_name:
-                type: string
-              country:
-                type: string
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            code:
+              type: string
     responses:
       200:
         description: Region updated successfully
@@ -126,13 +132,15 @@ def patch_regions(regions_id: int) -> Response:
         schema:
           type: integer
         description: ID of the region
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the region
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the region
     responses:
       200:
         description: Region patched successfully
