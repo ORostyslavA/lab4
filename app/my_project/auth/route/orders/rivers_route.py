@@ -31,28 +31,31 @@ def create_rivers() -> Response:
     """
     Create a new river
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              river_name:
-                type: string
-                description: Name of the river
-              river_length:
-                type: number
-                description: Length of the river
-              river_depth:
-                type: number
-                description: Depth of the river
-              river_types_id:
-                type: integer
-                description: River type ID
-              river_country:
-                type: string
-                description: Country where the river is located
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - name
+            - river_type_id
+          properties:
+            name:
+              type: string
+              description: Name of the river
+            river_type_id:
+              type: integer
+              description: River type ID
+            length:
+              type: number
+              format: float
+              description: Length of the river (optional)
+            description:
+              type: string
+              description: Optional description
     responses:
       201:
         description: River created successfully
@@ -102,23 +105,24 @@ def update_rivers(rivers_id: int) -> Response:
         schema:
           type: integer
         description: ID of the river
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              river_name:
-                type: string
-              river_length:
-                type: number
-              river_depth:
-                type: number
-              river_types_id:
-                type: integer
-              river_country:
-                type: string
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            river_type_id:
+              type: integer
+            length:
+              type: number
+              format: float
+            description:
+              type: string
     responses:
       200:
         description: River updated successfully
@@ -141,13 +145,15 @@ def patch_rivers(rivers_id: int) -> Response:
         schema:
           type: integer
         description: ID of the river
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the river
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the river
     responses:
       200:
         description: River patched successfully
@@ -188,10 +194,10 @@ def get_rivers_after_river_type(river_type_id: int) -> Response:
         required: true
         schema:
           type: integer
-        description: ID of the river type
+        description: River type ID
     responses:
       200:
-        description: List of rivers with the specified river type
+        description: List of rivers for the given river type
         content:
           application/json:
             schema:
