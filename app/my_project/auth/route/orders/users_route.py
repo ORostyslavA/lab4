@@ -15,7 +15,7 @@ def get_all_users() -> Response:
     ---
     responses:
       200:
-        description: List of all users
+        description: Returns a list of users
         content:
           application/json:
             schema:
@@ -29,31 +29,33 @@ def get_all_users() -> Response:
 @users_bp.post('')
 def create_users() -> Response:
     """
-    Create a new user
+    Create a new city
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - username
-              - email
-              - password
-            properties:
-              username:
-                type: string
-                description: Username of the user
-              email:
-                type: string
-                description: Email address of the user
-              password:
-                type: string
-                description: Password for user
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            user_name:
+              type: string
+              description: The name of the city
+            user_surname:
+              type: string
+              description: The surname of the user
+            user_email:
+              type: string
+              description: The email of the user
+          required:
+            - user_name
+            - user_surname
+            - user_email
     responses:
       201:
-        description: User created successfully
+        description: Returns the created city
         content:
           application/json:
             schema:
@@ -68,18 +70,18 @@ def create_users() -> Response:
 @users_bp.get('/<int:users_id>')
 def get_users(users_id: int) -> Response:
     """
-    Get user by ID
+    Get a city by ID
     ---
     parameters:
-      - name: users_id
-        in: path
+      - in: path
+        name: users_id
         required: true
         schema:
           type: integer
-        description: ID of the user
+        description: The ID of the user
     responses:
       200:
-        description: User found
+        description: Returns the user
         content:
           application/json:
             schema:
@@ -91,31 +93,39 @@ def get_users(users_id: int) -> Response:
 @users_bp.put('/<int:users_id>')
 def update_users(users_id: int) -> Response:
     """
-    Update user by ID
+    Update a user by ID
     ---
+    consumes:
+      - application/json
     parameters:
-      - name: users_id
-        in: path
+      - in: path
+        name: users_id
         required: true
         schema:
           type: integer
-        description: ID of the user
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              username:
-                type: string
-              email:
-                type: string
-              password:
-                type: string
+        description: The ID of the city
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            user_name:
+              type: string
+              description: The name of the city
+            user_surname:
+              type: string
+              description: The surname of the user
+            user_email:
+              type: string
+              description: The email of the user
+          required:
+            - user_name
+            - user_surname
+            - user_email
     responses:
       200:
-        description: User updated successfully
+        description: City updated
     """
     content = request.get_json()
     users = Users.create_from_dto(content)
@@ -126,25 +136,25 @@ def update_users(users_id: int) -> Response:
 @users_bp.patch('/<int:users_id>')
 def patch_users(users_id: int) -> Response:
     """
-    Partially update user by ID
+    Patch a city by ID
     ---
+    consumes:
+      - application/json
     parameters:
-      - name: users_id
-        in: path
+      - in: path
+        name: users_id
         required: true
         schema:
           type: integer
-        description: ID of the user
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the user
+        description: The ID of the user
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
     responses:
       200:
-        description: User patched successfully
+        description: City updated
     """
     content = request.get_json()
     users_controller.patch(users_id, content)
@@ -154,18 +164,18 @@ def patch_users(users_id: int) -> Response:
 @users_bp.delete('/<int:users_id>')
 def delete_users(users_id: int) -> Response:
     """
-    Delete user by ID
+    Delete a city by ID
     ---
     parameters:
-      - name: users_id
-        in: path
+      - in: path
+        name: users_id
         required: true
         schema:
           type: integer
-        description: ID of the user
+        description: The ID of the city
     responses:
       200:
-        description: User deleted successfully
+        description: City deleted
     """
     users_controller.delete(users_id)
     return make_response("Users deleted", HTTPStatus.OK)
