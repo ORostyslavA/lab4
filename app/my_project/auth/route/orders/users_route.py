@@ -29,12 +29,8 @@ def get_all_users() -> Response:
 @users_bp.post('')
 def create_users() -> Response:
     """
-    Створення нового користувача
+    Create a new user
     ---
-    tags:
-      - Users
-    summary: Створити нового користувача
-    description: Створює нового користувача у базі даних.
     requestBody:
       required: true
       content:
@@ -48,36 +44,20 @@ def create_users() -> Response:
             properties:
               username:
                 type: string
-                example: testuser
-                description: Ім'я користувача
+                description: Username of the user
               email:
                 type: string
-                format: email
-                example: testuser@example.com
-                description: Електронна пошта користувача
+                description: Email address of the user
               password:
                 type: string
-                format: password
-                example: mysecret123
-                description: Пароль користувача
+                description: Password for the user
     responses:
       201:
-        description: Користувача успішно створено
+        description: User created successfully
         content:
           application/json:
             schema:
               type: object
-              properties:
-                message:
-                  type: string
-                  example: User created successfully
-                user_id:
-                  type: integer
-                  example: 1
-      400:
-        description: Некоректні вхідні дані
-      409:
-        description: Користувач з таким email уже існує
     """
     content = request.get_json()
     users = Users.create_from_dto(content)
