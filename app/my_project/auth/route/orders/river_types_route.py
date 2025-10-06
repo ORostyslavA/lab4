@@ -11,11 +11,17 @@ river_types_bp = Blueprint('river-types', __name__, url_prefix='/river-types')
 @river_types_bp.get('')
 def get_all_river_types() -> Response:
     """
-    Example endpoint returning river types
+    Get all river types
     ---
     responses:
       200:
-        description: A successful response
+        description: List of all river types
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
     """
     return make_response(jsonify(river_types_controller.find_all()), HTTPStatus.OK)
 
@@ -25,16 +31,20 @@ def create_river_types() -> Response:
     """
     Create a new river type
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type_description:
-                type: string
-                description: Description of the river type
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - type_description
+          properties:
+            type_description:
+              type: string
+              description: Description of the river type
     responses:
       201:
         description: River type created successfully
@@ -84,16 +94,17 @@ def update_river_types(river_types_id: int) -> Response:
         schema:
           type: integer
         description: ID of the river type
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type_description:
-                type: string
-                description: Updated description of the river type
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            type_description:
+              type: string
     responses:
       200:
         description: River type updated successfully
@@ -116,13 +127,15 @@ def patch_river_types(river_types_id: int) -> Response:
         schema:
           type: integer
         description: ID of the river type
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the river type
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the river type
     responses:
       200:
         description: River type patched successfully
@@ -150,7 +163,4 @@ def delete_river_types(river_types_id: int) -> Response:
     """
     river_types_controller.delete(river_types_id)
     return make_response("RiverTypes deleted", HTTPStatus.OK)
-
-
-
 
