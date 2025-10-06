@@ -39,18 +39,19 @@ def create_hydrological_objects() -> Response:
         required: true
         schema:
           type: object
+          required:
+            - name
+            - region_id
           properties:
-            object_name:
+            name:
               type: string
               description: Name of the hydrological object
-            object_type:
-              type: string
-              description: Type of the hydrological object
             region_id:
               type: integer
-              description: Region ID
-          required:
-            - object_name
+              description: Region ID the object belongs to
+            description:
+              type: string
+              description: Optional description of the hydrological object
     responses:
       201:
         description: Hydrological object created successfully
@@ -100,19 +101,21 @@ def update_hydrological_objects(hydrological_objects_id: int) -> Response:
         schema:
           type: integer
         description: ID of the hydrological object
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              object_name:
-                type: string
-              object_type:
-                type: string
-              region_id:
-                type: integer
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            region_id:
+              type: integer
+            description:
+              type: string
     responses:
       200:
         description: Hydrological object updated successfully
@@ -135,13 +138,15 @@ def patch_hydrological_objects(hydrological_objects_id: int) -> Response:
         schema:
           type: integer
         description: ID of the hydrological object
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the hydrological object
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the hydrological object
     responses:
       200:
         description: Hydrological object patched successfully
