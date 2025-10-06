@@ -12,11 +12,11 @@ users_has_water_level_alerts_bp = Blueprint('users_has_water_level_alerts', __na
 @users_has_water_level_alerts_bp.get('')
 def get_all_users_has_water_level_alerts() -> Response:
     """
-    Get all user-water-level-alerts relations
+    Get all users-has-water-level-alerts relations
     ---
     responses:
       200:
-        description: List of all user-water-level-alerts relations
+        description: List of all user<->water-level-alert relations
         content:
           application/json:
             schema:
@@ -30,21 +30,26 @@ def get_all_users_has_water_level_alerts() -> Response:
 @users_has_water_level_alerts_bp.post('')
 def create_users_has_water_level_alerts() -> Response:
     """
-    Create a new user-water-level-alerts relation
+    Create a new user<->water-level-alert relation
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              users_id:
-                type: integer
-                description: User ID
-              water_level_alerts_id:
-                type: integer
-                description: Water level alert ID
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - users_id
+            - water_level_alerts_id
+          properties:
+            users_id:
+              type: integer
+              description: User ID
+            water_level_alerts_id:
+              type: integer
+              description: Water level alert ID
     responses:
       201:
         description: Relation created successfully
@@ -62,7 +67,7 @@ def create_users_has_water_level_alerts() -> Response:
 @users_has_water_level_alerts_bp.get('/<int:users_has_water_level_alerts_id>')
 def get_users_has_water_level_alerts(users_has_water_level_alerts_id: int) -> Response:
     """
-    Get user-water-level-alerts relation by ID
+    Get user<->water-level-alert relation by ID
     ---
     parameters:
       - name: users_has_water_level_alerts_id
@@ -86,7 +91,7 @@ def get_users_has_water_level_alerts(users_has_water_level_alerts_id: int) -> Re
 @users_has_water_level_alerts_bp.put('/<int:users_has_water_level_alerts_id>')
 def update_users_has_water_level_alerts(users_has_water_level_alerts_id: int) -> Response:
     """
-    Update user-water-level-alerts relation by ID
+    Update user<->water-level-alert relation by ID
     ---
     parameters:
       - name: users_has_water_level_alerts_id
@@ -95,17 +100,19 @@ def update_users_has_water_level_alerts(users_has_water_level_alerts_id: int) ->
         schema:
           type: integer
         description: Relation ID
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              users_id:
-                type: integer
-              water_level_alerts_id:
-                type: integer
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            users_id:
+              type: integer
+            water_level_alerts_id:
+              type: integer
     responses:
       200:
         description: Relation updated successfully
@@ -119,7 +126,7 @@ def update_users_has_water_level_alerts(users_has_water_level_alerts_id: int) ->
 @users_has_water_level_alerts_bp.patch('/<int:users_has_water_level_alerts_id>')
 def patch_water_level_alerts(users_has_water_level_alerts_id: int) -> Response:
     """
-    Partially update user-water-level-alerts relation by ID
+    Partially update user<->water-level-alert relation by ID
     ---
     parameters:
       - name: users_has_water_level_alerts_id
@@ -128,13 +135,15 @@ def patch_water_level_alerts(users_has_water_level_alerts_id: int) -> Response:
         schema:
           type: integer
         description: Relation ID
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the relation
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the relation
     responses:
       200:
         description: Relation patched successfully
@@ -147,7 +156,7 @@ def patch_water_level_alerts(users_has_water_level_alerts_id: int) -> Response:
 @users_has_water_level_alerts_bp.delete('/<int:users_has_water_level_alerts_id>')
 def delete_users_has_water_level_alerts(users_has_water_level_alerts_id: int) -> Response:
     """
-    Delete user-water-level-alerts relation by ID
+    Delete user<->water-level-alert relation by ID
     ---
     parameters:
       - name: users_has_water_level_alerts_id
@@ -167,7 +176,7 @@ def delete_users_has_water_level_alerts(users_has_water_level_alerts_id: int) ->
 @users_has_water_level_alerts_bp.get('/get-users/<int:users_id>')
 def get_users(users_id: int) -> Response:
     """
-    Get all water level alerts for a user
+    Get relations by user ID
     ---
     parameters:
       - name: users_id
@@ -178,7 +187,7 @@ def get_users(users_id: int) -> Response:
         description: User ID
     responses:
       200:
-        description: List of water level alerts for the user
+        description: List of relations for the user
         content:
           application/json:
             schema:
@@ -192,7 +201,7 @@ def get_users(users_id: int) -> Response:
 @users_has_water_level_alerts_bp.get('/get-water-level-alerts/<int:water_level_alerts_id>')
 def get_water_level_alerts(water_level_alerts_id: int) -> Response:
     """
-    Get all users for a water level alert
+    Get relations by water level alert ID
     ---
     parameters:
       - name: water_level_alerts_id
@@ -203,7 +212,7 @@ def get_water_level_alerts(water_level_alerts_id: int) -> Response:
         description: Water level alert ID
     responses:
       200:
-        description: List of users for the water level alert
+        description: List of relations for the alert
         content:
           application/json:
             schema:
