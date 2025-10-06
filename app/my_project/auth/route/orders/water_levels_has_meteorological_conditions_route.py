@@ -16,7 +16,7 @@ def get_all_water_levels_has_meteorological_conditions() -> Response:
     ---
     responses:
       200:
-        description: List of all water-levels-has-meteorological-conditions relations
+        description: List of all relations
         content:
           application/json:
             schema:
@@ -30,21 +30,26 @@ def get_all_water_levels_has_meteorological_conditions() -> Response:
 @water_levels_has_meteorological_conditions_bp.post('')
 def create_water_levels_has_meteorological_conditions() -> Response:
     """
-    Create a new water-levels-has-meteorological-conditions relation
+    Create a new water-level <-> meteorological-condition relation
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              water_levels_id:
-                type: integer
-                description: Water level ID
-              meteorological_conditions_id:
-                type: integer
-                description: Meteorological condition ID
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - water_levels_id
+            - meteorological_conditions_id
+          properties:
+            water_levels_id:
+              type: integer
+              description: Water level ID
+            meteorological_conditions_id:
+              type: integer
+              description: Meteorological condition ID
     responses:
       201:
         description: Relation created successfully
@@ -62,7 +67,7 @@ def create_water_levels_has_meteorological_conditions() -> Response:
 @water_levels_has_meteorological_conditions_bp.get('/<int:water_levels_has_meteorological_conditions_id>')
 def get_water_levels_has_meteorological_conditions(water_levels_has_meteorological_conditions_id: int) -> Response:
     """
-    Get water-levels-has-meteorological-conditions relation by ID
+    Get relation by ID
     ---
     parameters:
       - name: water_levels_has_meteorological_conditions_id
@@ -86,7 +91,7 @@ def get_water_levels_has_meteorological_conditions(water_levels_has_meteorologic
 @water_levels_has_meteorological_conditions_bp.put('/<int:water_levels_has_meteorological_conditions_id>')
 def update_water_levels_has_meteorological_conditions(water_levels_has_meteorological_conditions_id: int) -> Response:
     """
-    Update water-levels-has-meteorological-conditions relation by ID
+    Update relation by ID
     ---
     parameters:
       - name: water_levels_has_meteorological_conditions_id
@@ -95,17 +100,19 @@ def update_water_levels_has_meteorological_conditions(water_levels_has_meteorolo
         schema:
           type: integer
         description: Relation ID
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              water_levels_id:
-                type: integer
-              meteorological_conditions_id:
-                type: integer
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            water_levels_id:
+              type: integer
+            meteorological_conditions_id:
+              type: integer
     responses:
       200:
         description: Relation updated successfully
@@ -120,7 +127,7 @@ def update_water_levels_has_meteorological_conditions(water_levels_has_meteorolo
 @water_levels_has_meteorological_conditions_bp.patch('/<int:water_levels_has_meteorological_conditions_id>')
 def patch_water_levels_has_meteorological_conditions(water_levels_has_meteorological_conditions_id: int) -> Response:
     """
-    Partially update water-levels-has-meteorological-conditions relation by ID
+    Partially update relation by ID
     ---
     parameters:
       - name: water_levels_has_meteorological_conditions_id
@@ -129,13 +136,15 @@ def patch_water_levels_has_meteorological_conditions(water_levels_has_meteorolog
         schema:
           type: integer
         description: Relation ID
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the relation
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the relation
     responses:
       200:
         description: Relation patched successfully
@@ -148,7 +157,7 @@ def patch_water_levels_has_meteorological_conditions(water_levels_has_meteorolog
 @water_levels_has_meteorological_conditions_bp.delete('/<int:water_levels_has_meteorological_conditions_id>')
 def delete_water_levels_has_meteorological_conditions(water_levels_has_meteorological_conditions_id: int) -> Response:
     """
-    Delete water-levels-has-meteorological-conditions relation by ID
+    Delete relation by ID
     ---
     parameters:
       - name: water_levels_has_meteorological_conditions_id
@@ -168,7 +177,7 @@ def delete_water_levels_has_meteorological_conditions(water_levels_has_meteorolo
 @water_levels_has_meteorological_conditions_bp.get('/get-water-levels/<int:water_levels_id>')
 def get_water_levels(water_levels_id: int) -> Response:
     """
-    Get meteorological conditions for a water level
+    Get relations by water level ID
     ---
     parameters:
       - name: water_levels_id
@@ -179,7 +188,7 @@ def get_water_levels(water_levels_id: int) -> Response:
         description: Water level ID
     responses:
       200:
-        description: List of meteorological conditions for the water level
+        description: List of relations for the water level
         content:
           application/json:
             schema:
@@ -195,7 +204,7 @@ def get_water_levels(water_levels_id: int) -> Response:
 @water_levels_has_meteorological_conditions_bp.get('/get-meteorological-conditions/<int:meteorological_conditions_id>')
 def get_meteorological_conditions(meteorological_conditions_id: int) -> Response:
     """
-    Get water levels for a meteorological condition
+    Get relations by meteorological condition ID
     ---
     parameters:
       - name: meteorological_conditions_id
@@ -206,7 +215,7 @@ def get_meteorological_conditions(meteorological_conditions_id: int) -> Response
         description: Meteorological condition ID
     responses:
       200:
-        description: List of water levels for the meteorological condition
+        description: List of relations for the condition
         content:
           application/json:
             schema:
