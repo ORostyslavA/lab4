@@ -31,22 +31,26 @@ def create_hydrological_objects() -> Response:
     """
     Create a new hydrological object
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              object_name:
-                type: string
-                description: Name of the hydrological object
-              object_type:
-                type: string
-                description: Type of the hydrological object
-              region_id:
-                type: integer
-                description: Region ID
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            object_name:
+              type: string
+              description: Name of the hydrological object
+            object_type:
+              type: string
+              description: Type of the hydrological object
+            region_id:
+              type: integer
+              description: Region ID
+          required:
+            - object_name
     responses:
       201:
         description: Hydrological object created successfully
