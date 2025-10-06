@@ -31,28 +31,37 @@ def create_measurement_locations() -> Response:
     """
     Create a new measurement location
     ---
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              location_name:
-                type: string
-                description: Name of the measurement location
-              latitude:
-                type: number
-                description: Latitude coordinate
-              longitude:
-                type: number
-                description: Longitude coordinate
-              rivers_id:
-                type: integer
-                description: River ID
-              regions_id:
-                type: integer
-                description: Region ID
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - name
+            - river_id
+            - region_id
+          properties:
+            name:
+              type: string
+              description: Name of the measurement location
+            river_id:
+              type: integer
+              description: River ID this location belongs to
+            region_id:
+              type: integer
+              description: Region ID this location belongs to
+            latitude:
+              type: number
+              format: float
+            longitude:
+              type: number
+              format: float
+            description:
+              type: string
+              description: Optional description
     responses:
       201:
         description: Measurement location created successfully
@@ -102,23 +111,29 @@ def update_measurement_locations(measurement_locations_id: int) -> Response:
         schema:
           type: integer
         description: ID of the measurement location
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              location_name:
-                type: string
-              latitude:
-                type: number
-              longitude:
-                type: number
-              rivers_id:
-                type: integer
-              regions_id:
-                type: integer
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            river_id:
+              type: integer
+            region_id:
+              type: integer
+            latitude:
+              type: number
+              format: float
+            longitude:
+              type: number
+              format: float
+            description:
+              type: string
     responses:
       200:
         description: Measurement location updated successfully
@@ -141,13 +156,15 @@ def patch_measurement_locations(measurement_locations_id: int) -> Response:
         schema:
           type: integer
         description: ID of the measurement location
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Fields to update in the measurement location
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Fields to update in the measurement location
     responses:
       200:
         description: Measurement location patched successfully
