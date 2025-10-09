@@ -158,19 +158,19 @@ def patch_hydrological_objects(hydrological_objects_id: int) -> Response:
 
 @hydrological_objects_bp.delete('/<int:hydrological_objects_id>')
 def delete_hydrological_objects(hydrological_objects_id: int) -> Response:
-    """
-    Delete hydrological object by ID
-    ---
-    parameters:
-      - name: hydrological_objects_id
-        in: path
-        required: true
-        schema:
-          type: integer
-        description: ID of the hydrological object
-    responses:
-      200:
-        description: Hydrological object deleted successfully
-    """
+    # """
+    # Delete hydrological object by ID
+    # ---
+    # parameters:
+    #   - name: hydrological_objects_id
+    #     in: path
+    #     required: true
+    #     schema:
+    #       type: integer
+    #     description: ID of the hydrological object
+    # responses:
+    #   200:
+    #     description: Hydrological object deleted successfully
+    # """
     hydrological_objects_controller.delete(hydrological_objects_id)
     return make_response("HydrologicalObjects deleted", HTTPStatus.OK)
